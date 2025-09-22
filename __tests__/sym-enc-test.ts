@@ -18,12 +18,6 @@ describe("SymEnc", () => {
   });
 
   test("dearmor", async () => {
-    const key = await C.SymEnc.derive("hello", SALT);
-    const dumped = await C.SymEnc.armor(key);
-    await C.SymEnc.dearmor(dumped);
-  });
-
-  test("armor-dearmor-armor", async () => {
     const key1 = await C.SymEnc.derive("hello", SALT);
     const dumped1 = await C.SymEnc.armor(key1);
     const key2 = await C.SymEnc.dearmor(dumped1);

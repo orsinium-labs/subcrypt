@@ -14,12 +14,6 @@ describe("VerifyKey", () => {
   });
 
   test("dearmor", async () => {
-    const key = C.VerifyKey.fromSignPair(await C.SignPair.generate());
-    const dumped = await C.VerifyKey.armor(key);
-    await C.VerifyKey.dearmor(dumped);
-  });
-
-  test("armor-dearmor-armor", async () => {
     const key1 = C.VerifyKey.fromSignPair(await C.SignPair.generate());
     const dumped1 = await C.VerifyKey.armor(key1);
     const key2 = await C.VerifyKey.dearmor(dumped1);

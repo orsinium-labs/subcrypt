@@ -35,4 +35,19 @@ describe("SignKey", () => {
     const key = await C.SignKey.generate();
     await C.SignKey.sign(key, "hello");
   });
+
+  test("armorEncrypted", async () => {
+    const key = await C.SignKey.generate();
+    const enc = await C.SymEnc.derive("hello", SALT);
+    await C.SignKey.armorEncrypted(key, enc, SALT);
+  });
+
+  test("dearmorEncrypted", async () => {
+    const enc = await C.SymEnc.derive("hello", SALT);
+    const key1 = await C.SignKey.generate();
+    const dumped1 = await C.SignKey.armorEncrypted(key1, enc, SALT);
+    const key2 = await C.SignKey.dearmorEncrypted(dumped1, enc, SALT);
+    const dumped2 = await C.SignKey.armorEncrypted(key2, enc, SALT);
+    expect(dumped1).toBe(dumped2);
+  });
 });

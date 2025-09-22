@@ -18,12 +18,6 @@ describe("SignPair", () => {
   });
 
   test("dearmor", async () => {
-    const key = await C.SignPair.generate();
-    const dumped = await C.SignPair.armor(key);
-    await C.SignPair.dearmor(dumped);
-  });
-
-  test("armor-dearmor-armor", async () => {
     const key1 = await C.SignPair.generate();
     const dumped1 = await C.SignPair.armor(key1);
     const key2 = await C.SignPair.dearmor(dumped1);
@@ -43,5 +37,20 @@ describe("SignPair", () => {
     expect(ok1).toBe(true);
     const ok2 = await C.SignPair.verify(key, "hello!", sig);
     expect(ok2).toBe(false);
+  });
+
+  test("armorEncrypted", async () => {
+    const key = await C.SignPair.generate();
+    const enc = await C.SymEnc.derive("hello", SALT);
+    await C.SignPair.armorEncrypted(key, enc, SALT);
+  });
+
+  test("dearmorEncrypted", async () => {
+    const enc = await C.SymEnc.derive("hello", SALT);
+    const key1 = await C.SignPair.generate();
+    const dumped1 = await C.SignPair.armorEncrypted(key1, enc, SALT);
+    const key2 = await C.SignPair.dearmorEncrypted(dumped1, enc, SALT);
+    const dumped2 = await C.SignPair.armorEncrypted(key2, enc, SALT);
+    expect(dumped1).toBe(dumped2);
   });
 });
