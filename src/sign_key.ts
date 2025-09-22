@@ -47,6 +47,28 @@ export namespace SignKey {
     );
     return arrayBufferToBase64(encBytes);
   }
+
+  export async function dearmorEncrypted(
+    base64: string,
+    decKey: Types.DecryptKey,
+    salt: Types.Salt
+  ): Promise<Types.SignKey> {
+    const encBytes = base64ToArrayBuffer(base64);
+    let iv = salt.salt.slice(0, 16);
+    const plainBytes = await crypto.subtle.decrypt(
+      { name: decKey.decrypt.algorithm.name, iv },
+      decKey.decrypt,
+      encBytes
+    );
+    const key = await crypto.subtle.importKey(
+      "pkcs8",
+      plainBytes,
+      { name: "RSA-PSS", hash: "SHA-256" },
+      true,
+      ["sign"]
+    );
+    return { sign: key };
+  }
 }
 
 async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
