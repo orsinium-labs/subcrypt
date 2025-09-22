@@ -24,6 +24,10 @@ export namespace SignPair {
     return { verify: pair.verify };
   }
 
+  export async function fromSignKey(key: Types.SignKey): Promise<Types.SignPair> {
+    return await SignKey.toSignPair(key);
+  }
+
   export async function armor(pair: Types.SignPair): Promise<string> {
     return SignKey.armor(toSignKey(pair));
   }

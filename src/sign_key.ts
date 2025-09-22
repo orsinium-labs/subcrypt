@@ -11,6 +11,11 @@ export namespace SignKey {
     return { sign: key.sign, verify: pubKey };
   }
 
+  export async function toVerifyKey(key: Types.SignKey): Promise<Types.VerifyKey> {
+    const pubKey = await extractPubKey(key.sign);
+    return { verify: pubKey };
+  }
+
   export async function armor(pair: Types.SignKey): Promise<string> {
     const plainBytes = await crypto.subtle.exportKey("pkcs8", pair.sign);
     return arrayBufferToBase64(plainBytes);
@@ -27,6 +32,21 @@ export namespace SignKey {
     );
     return { sign: key };
   }
+
+  export async function armorEncrypted(
+    signKey: Types.SignKey,
+    encKey: Types.EncryptKey,
+    salt: Types.Salt
+  ): Promise<string> {
+    const plainBytes = await crypto.subtle.exportKey("pkcs8", signKey.sign);
+    let iv = salt.salt.slice(0, 16);
+    const encBytes = await crypto.subtle.encrypt(
+      { name: encKey.encrypt.algorithm.name, iv },
+      encKey.encrypt,
+      plainBytes
+    );
+    return arrayBufferToBase64(encBytes);
+  }
 }
 
 async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
@@ -42,7 +62,7 @@ async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
   return await crypto.subtle.importKey(
     "jwk",
     jwk,
-    { name: "RSA-PSS", hash: "SHA-256" },
+    { name: privKey.algorithm.name, hash: "SHA-256" },
     true,
     ["verify"]
   );

@@ -30,4 +30,8 @@ export namespace Types {
 
   /** Asymmetric key pair or symmetric key that can be used to encrypt and decrypt messages. */
   export interface EncPair extends EncryptKey, DecryptKey {}
+
+  export interface Salt {
+    salt: Uint8Array<ArrayBuffer>;
+  }
 }
