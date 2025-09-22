@@ -4,7 +4,7 @@ import { VerifyKey } from "./verify_key";
 
 export namespace SignPair {
   export async function generate(): Promise<Types.SignPair> {
-    const pair = await window.crypto.subtle.generateKey(
+    const pair = await crypto.subtle.generateKey(
       {
         name: "RSA-PSS",
         modulusLength: 2048,

@@ -2,6 +2,20 @@ import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
 
 export namespace SignKey {
+  export async function generate(): Promise<Types.SignKey> {
+    const pair = await crypto.subtle.generateKey(
+      {
+        name: "RSA-PSS",
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: "SHA-256",
+      },
+      true,
+      ["sign", "verify"]
+    );
+    return { sign: pair.privateKey };
+  }
+
   export function fromSignPair(pair: Types.SignPair): Types.SignKey {
     return { sign: pair.sign };
   }
@@ -71,7 +85,7 @@ export namespace SignKey {
   }
 
   export async function sign(key: Types.SignKey, data: string): Promise<string> {
-    let signature = await window.crypto.subtle.sign(
+    let signature = await crypto.subtle.sign(
       {
         name: key.sign.algorithm.name,
         saltLength: 32,
