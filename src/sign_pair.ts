@@ -34,7 +34,7 @@ export namespace SignPair {
 
   export async function dearmor(base64: string): Promise<Types.SignPair> {
     const key = await SignKey.dearmor(base64);
-    return await SignKey.toSignPair(key);
+    return await fromSignKey(key);
   }
 
   export async function armorEncrypted(
@@ -51,6 +51,10 @@ export namespace SignPair {
     salt: Types.Salt
   ): Promise<Types.SignPair> {
     const key = await SignKey.dearmorEncrypted(base64, decKey, salt);
-    return await SignKey.toSignPair(key);
+    return await fromSignKey(key);
+  }
+
+  export async function sign(pair: Types.SignPair, data: string): Promise<string> {
+    return await SignKey.sign(toSignKey(pair), data);
   }
 }

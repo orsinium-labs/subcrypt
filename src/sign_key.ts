@@ -1,5 +1,5 @@
 import { Types } from "./types";
-import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
+import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
 
 export namespace SignKey {
   export function fromSignPair(pair: Types.SignPair): Types.SignKey {
@@ -68,6 +68,18 @@ export namespace SignKey {
       ["sign"]
     );
     return { sign: key };
+  }
+
+  export async function sign(key: Types.SignKey, data: string): Promise<string> {
+    let signature = await window.crypto.subtle.sign(
+      {
+        name: key.sign.algorithm.name,
+        saltLength: 32,
+      },
+      key.sign,
+      stringToArrayBuffer(data)
+    );
+    return arrayBufferToBase64(signature);
   }
 }
 
