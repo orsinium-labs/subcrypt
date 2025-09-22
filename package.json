@@ -9,6 +9,18 @@
   "author": "",
   "license": "MIT",
   "description": "",
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ]
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "transform": {
+      "^.+\\.(ts|tsx)?$": "ts-jest",
+      "^.+\\.(js|jsx)$": "babel-jest"
+    }
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
     "@types/jest": "^30.0.0",
