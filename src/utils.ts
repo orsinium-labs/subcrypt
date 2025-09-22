@@ -23,19 +23,3 @@ export function stringToArrayBuffer(binaryString: string): ArrayBuffer {
   }
   return bytes.buffer;
 }
-
-export function mergeArrayBuffers(abs: ArrayBufferLike[]): ArrayBuffer {
-  let length = 0;
-  for (const v of abs) {
-    length += v.byteLength;
-  }
-
-  let merged = new Uint8Array(length);
-  let offset = 0;
-  for (const ab of abs) {
-    const uint8view = new Uint8Array(ab, 0, ab.byteLength);
-    merged.set(uint8view, offset);
-    offset += uint8view.byteLength;
-  }
-  return merged.buffer;
-}

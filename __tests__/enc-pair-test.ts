@@ -11,4 +11,11 @@ describe("EncPair", () => {
   test("generate", async () => {
     await C.EncPair.generate();
   });
+
+  test("decrypt", async () => {
+    const key = await C.EncPair.generate();
+    const dumped = await C.encrypt(key, "oh hi mark");
+    const res = await C.decrypt(key, dumped);
+    expect(res).toBe("oh hi mark");
+  });
 });
