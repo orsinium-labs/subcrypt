@@ -8,17 +8,13 @@ const SALT = C.Salt.fromArray([
 ]);
 
 describe("SignKey", () => {
-  test("generate", async () => {
-    await C.SignKey.generate();
-  });
-
   test("armor", async () => {
-    const key = await C.SignKey.generate();
+    const key = await C.SignPair.generate();
     await C.SignKey.armor(key);
   });
 
   test("dearmor", async () => {
-    const key1 = await C.SignKey.generate();
+    const key1 = await C.SignPair.generate();
     const dumped1 = await C.SignKey.armor(key1);
     const key2 = await C.SignKey.dearmor(dumped1);
     const dumped2 = await C.SignKey.armor(key2);
@@ -26,19 +22,19 @@ describe("SignKey", () => {
   });
 
   test("sign", async () => {
-    const key = await C.SignKey.generate();
+    const key = await C.SignPair.generate();
     await C.SignKey.sign(key, "hello");
   });
 
   test("armorEncrypted", async () => {
-    const key = await C.SignKey.generate();
+    const key = await C.SignPair.generate();
     const enc = await C.SymEnc.derive("hello", SALT);
     await C.SignKey.armorEncrypted(key, enc, SALT);
   });
 
   test("dearmorEncrypted", async () => {
     const enc = await C.SymEnc.derive("hello", SALT);
-    const key1 = await C.SignKey.generate();
+    const key1 = await C.SignPair.generate();
     const dumped1 = await C.SignKey.armorEncrypted(key1, enc, SALT);
     const key2 = await C.SignKey.dearmorEncrypted(dumped1, enc, SALT);
     const dumped2 = await C.SignKey.armorEncrypted(key2, enc, SALT);

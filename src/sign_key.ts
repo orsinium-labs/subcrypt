@@ -2,20 +2,6 @@ import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
 
 export namespace SignKey {
-  export async function generate(): Promise<Types.SignKey> {
-    const pair = await crypto.subtle.generateKey(
-      {
-        name: "RSA-PSS",
-        modulusLength: 2048,
-        publicExponent: new Uint8Array([1, 0, 1]),
-        hash: "SHA-256",
-      },
-      true,
-      ["sign", "verify"]
-    );
-    return { sign: pair.privateKey };
-  }
-
   export async function toSignPair(key: Types.SignKey): Promise<Types.SignPair> {
     const pubKey = await extractPubKey(key.sign);
     return { sign: key.sign, verify: pubKey };
