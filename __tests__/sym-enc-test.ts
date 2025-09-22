@@ -39,4 +39,11 @@ describe("SymEnc", () => {
     const dumped2 = await C.SymEnc.armorEncrypted(key2, enc, SALT);
     expect(dumped1).toBe(dumped2);
   });
+
+  test("decrypt", async () => {
+    const key = await C.SymEnc.derive("whyyyy", SALT);
+    const dumped = await C.encrypt(key, "oh hi mark", SALT);
+    const res = await C.decrypt(key, dumped, SALT);
+    expect(res).toBe("oh hi mark");
+  });
 });

@@ -6,20 +6,36 @@ import {
   stringToArrayBuffer,
 } from "./utils";
 
-export async function encrypt(key: Types.EncryptKey, data: string): Promise<string> {
+export async function encrypt(
+  key: Types.EncryptKey,
+  data: string,
+  salt?: Types.Salt
+): Promise<string> {
   const plainBinary = stringToArrayBuffer(data);
+  let iv = undefined;
+  if (salt) {
+    iv = salt.salt.slice(0, 16);
+  }
   const encryptedBinary = await crypto.subtle.encrypt(
-    { name: key.encrypt.algorithm.name },
+    { name: key.encrypt.algorithm.name, iv },
     key.encrypt,
     plainBinary
   );
   return arrayBufferToBase64(encryptedBinary);
 }
 
-export async function decrypt(key: Types.DecryptKey, base64: string): Promise<string> {
+export async function decrypt(
+  key: Types.DecryptKey,
+  base64: string,
+  salt?: Types.Salt
+): Promise<string> {
   const encryptedBinary = base64ToArrayBuffer(base64);
+  let iv = undefined;
+  if (salt) {
+    iv = salt.salt.slice(0, 16);
+  }
   const plainBinary = await crypto.subtle.decrypt(
-    { name: key.decrypt.algorithm.name },
+    { name: key.decrypt.algorithm.name, iv },
     key.decrypt,
     encryptedBinary
   );
