@@ -17,25 +17,13 @@ export namespace SignPair {
     return { sign: pair.privateKey, verify: pair.publicKey };
   }
 
-  export function toSignKey(pair: Types.SignPair): Types.SignKey {
-    return { sign: pair.sign };
-  }
-
-  export function toVerifyKey(pair: Types.SignPair): Types.VerifyKey {
-    return { verify: pair.verify };
-  }
-
-  export async function fromSignKey(key: Types.SignKey): Promise<Types.SignPair> {
-    return await SignKey.toSignPair(key);
-  }
-
   export async function armor(pair: Types.SignPair): Promise<string> {
-    return SignKey.armor(toSignKey(pair));
+    return SignKey.armor(pair);
   }
 
   export async function dearmor(base64: string): Promise<Types.SignPair> {
     const key = await SignKey.dearmor(base64);
-    return await fromSignKey(key);
+    return await SignKey.toSignPair(key);
   }
 
   export async function armorEncrypted(
@@ -43,7 +31,7 @@ export namespace SignPair {
     encKey: Types.EncryptKey,
     salt: Types.Salt
   ): Promise<string> {
-    return await SignKey.armorEncrypted(toSignKey(pair), encKey, salt);
+    return await SignKey.armorEncrypted(pair, encKey, salt);
   }
 
   export async function dearmorEncrypted(
@@ -52,11 +40,11 @@ export namespace SignPair {
     salt: Types.Salt
   ): Promise<Types.SignPair> {
     const key = await SignKey.dearmorEncrypted(base64, decKey, salt);
-    return await fromSignKey(key);
+    return await SignKey.toSignPair(key);
   }
 
   export async function sign(pair: Types.SignPair, data: string): Promise<string> {
-    return await SignKey.sign(toSignKey(pair), data);
+    return await SignKey.sign(pair, data);
   }
 
   export async function verify(
@@ -64,6 +52,6 @@ export namespace SignPair {
     data: string,
     signature: string
   ): Promise<boolean> {
-    return await VerifyKey.verify(toVerifyKey(pair), data, signature);
+    return await VerifyKey.verify(pair, data, signature);
   }
 }

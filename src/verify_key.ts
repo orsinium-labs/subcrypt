@@ -2,10 +2,6 @@ import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
 
 export namespace VerifyKey {
-  export function fromSignPair(pair: Types.SignPair): Types.VerifyKey {
-    return { verify: pair.verify };
-  }
-
   export async function armor(key: Types.VerifyKey): Promise<string> {
     const bytes = await crypto.subtle.exportKey("spki", key.verify);
     return arrayBufferToBase64(bytes);

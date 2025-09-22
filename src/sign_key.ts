@@ -16,18 +16,9 @@ export namespace SignKey {
     return { sign: pair.privateKey };
   }
 
-  export function fromSignPair(pair: Types.SignPair): Types.SignKey {
-    return { sign: pair.sign };
-  }
-
   export async function toSignPair(key: Types.SignKey): Promise<Types.SignPair> {
     const pubKey = await extractPubKey(key.sign);
     return { sign: key.sign, verify: pubKey };
-  }
-
-  export async function toVerifyKey(key: Types.SignKey): Promise<Types.VerifyKey> {
-    const pubKey = await extractPubKey(key.sign);
-    return { verify: pubKey };
   }
 
   export async function armor(pair: Types.SignKey): Promise<string> {
