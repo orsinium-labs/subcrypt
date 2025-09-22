@@ -18,20 +18,4 @@ export namespace VerifyKey {
     );
     return { verify: key };
   }
-
-  export async function verify(
-    key: Types.VerifyKey,
-    data: string,
-    signature: string
-  ): Promise<boolean> {
-    return await crypto.subtle.verify(
-      {
-        name: key.verify.algorithm.name,
-        saltLength: 32,
-      },
-      key.verify,
-      base64ToArrayBuffer(signature),
-      stringToArrayBuffer(data)
-    );
-  }
 }

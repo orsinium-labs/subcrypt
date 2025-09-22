@@ -60,18 +60,6 @@ export namespace SignKey {
     );
     return { sign: key };
   }
-
-  export async function sign(key: Types.SignKey, data: string): Promise<string> {
-    let signature = await crypto.subtle.sign(
-      {
-        name: key.sign.algorithm.name,
-        saltLength: 32,
-      },
-      key.sign,
-      stringToArrayBuffer(data)
-    );
-    return arrayBufferToBase64(signature);
-  }
 }
 
 async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {

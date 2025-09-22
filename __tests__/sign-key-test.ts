@@ -21,11 +21,6 @@ describe("SignKey", () => {
     expect(dumped1).toBe(dumped2);
   });
 
-  test("sign", async () => {
-    const key = await C.SignPair.generate();
-    await C.SignKey.sign(key, "hello");
-  });
-
   test("armorEncrypted", async () => {
     const key = await C.SignPair.generate();
     const enc = await C.SymEnc.derive("hello", SALT);

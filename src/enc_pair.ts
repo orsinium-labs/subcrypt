@@ -1,4 +1,3 @@
-import { EncryptKey } from "./encrypt_key";
 import { Types } from "./types";
 
 export namespace EncPair {
@@ -14,9 +13,5 @@ export namespace EncPair {
       ["encrypt", "decrypt"]
     );
     return { encrypt: pair.publicKey, decrypt: pair.privateKey };
-  }
-
-  export async function encrypt(key: Types.EncPair, data: string): Promise<string> {
-    return await EncryptKey.encrypt(key, data);
   }
 }

@@ -42,16 +42,4 @@ export namespace SignPair {
     const key = await SignKey.dearmorEncrypted(base64, decKey, salt);
     return await SignKey.toSignPair(key);
   }
-
-  export async function sign(pair: Types.SignPair, data: string): Promise<string> {
-    return await SignKey.sign(pair, data);
-  }
-
-  export async function verify(
-    pair: Types.SignPair,
-    data: string,
-    signature: string
-  ): Promise<boolean> {
-    return await VerifyKey.verify(pair, data, signature);
-  }
 }
