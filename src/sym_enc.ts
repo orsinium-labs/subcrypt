@@ -1,7 +1,7 @@
 import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
-export namespace AesEnc {
+export namespace SymEnc {
   export async function derive(
     password: string,
     salt: Types.Salt
