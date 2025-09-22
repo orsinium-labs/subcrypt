@@ -42,4 +42,41 @@ export namespace SymEnc {
     ]);
     return { encrypt: key, decrypt: key };
   }
+
+  export async function armorEncrypted(
+    pair: Types.EncPair,
+    encKey: Types.EncryptKey,
+    salt: Types.Salt
+  ): Promise<string> {
+    const plainBytes = await crypto.subtle.exportKey("raw", pair.encrypt);
+    let iv = salt.salt.slice(0, 16);
+    const encBytes = await crypto.subtle.encrypt(
+      { name: encKey.encrypt.algorithm.name, iv },
+      encKey.encrypt,
+      plainBytes
+    );
+    return arrayBufferToBase64(encBytes);
+  }
+
+  export async function dearmorEncrypted(
+    base64: string,
+    decKey: Types.DecryptKey,
+    salt: Types.Salt
+  ): Promise<Types.EncPair> {
+    const encBytes = base64ToArrayBuffer(base64);
+    let iv = salt.salt.slice(0, 16);
+    const plainBytes = await crypto.subtle.decrypt(
+      { name: decKey.decrypt.algorithm.name, iv },
+      decKey.decrypt,
+      encBytes
+    );
+    const key = await crypto.subtle.importKey(
+      "raw",
+      plainBytes,
+      { name: "AES-GCM" },
+      true,
+      ["encrypt", "decrypt"]
+    );
+    return { encrypt: key, decrypt: key };
+  }
 }
