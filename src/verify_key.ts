@@ -1,5 +1,5 @@
 import { Types } from "./types";
-import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
+import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
 
 export namespace VerifyKey {
   export function fromSignPair(pair: Types.SignPair): Types.VerifyKey {
@@ -21,5 +21,21 @@ export namespace VerifyKey {
       ["verify"]
     );
     return { verify: key };
+  }
+
+  export async function verify(
+    key: Types.VerifyKey,
+    data: string,
+    signature: string
+  ): Promise<boolean> {
+    return await crypto.subtle.verify(
+      {
+        name: key.verify.algorithm.name,
+        saltLength: 32,
+      },
+      key.verify,
+      base64ToArrayBuffer(signature),
+      stringToArrayBuffer(data)
+    );
   }
 }

@@ -1,5 +1,6 @@
 import { SignKey } from "./sign_key";
 import { Types } from "./types";
+import { VerifyKey } from "./verify_key";
 
 export namespace SignPair {
   export async function generate(): Promise<Types.SignPair> {
@@ -56,5 +57,13 @@ export namespace SignPair {
 
   export async function sign(pair: Types.SignPair, data: string): Promise<string> {
     return await SignKey.sign(toSignKey(pair), data);
+  }
+
+  export async function verify(
+    pair: Types.SignPair,
+    data: string,
+    signature: string
+  ): Promise<boolean> {
+    return await VerifyKey.verify(toVerifyKey(pair), data, signature);
   }
 }
