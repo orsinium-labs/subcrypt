@@ -1,5 +1,6 @@
 import { SignKey } from "./sign_key";
 import { Types } from "./types";
+import { arrayBufferToBase64 } from "./utils";
 import { VerifyKey } from "./verify_key";
 
 export namespace SignPair {
@@ -18,7 +19,8 @@ export namespace SignPair {
   }
 
   export async function armor(pair: Types.SignPair): Promise<string> {
-    return SignKey.armor(pair);
+    const plainBytes = await crypto.subtle.exportKey("pkcs8", pair.sign);
+    return arrayBufferToBase64(plainBytes);
   }
 
   export async function dearmor(base64: string): Promise<Types.SignPair> {

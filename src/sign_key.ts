@@ -1,15 +1,10 @@
 import { Types } from "./types";
-import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
+import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
 export namespace SignKey {
   export async function toSignPair(key: Types.SignKey): Promise<Types.SignPair> {
     const pubKey = await extractPubKey(key.sign);
     return { sign: key.sign, verify: pubKey };
-  }
-
-  export async function armor(pair: Types.SignKey): Promise<string> {
-    const plainBytes = await crypto.subtle.exportKey("pkcs8", pair.sign);
-    return arrayBufferToBase64(plainBytes);
   }
 
   export async function dearmor(base64: string): Promise<Types.SignKey> {

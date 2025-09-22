@@ -8,16 +8,12 @@ const SALT = C.Salt.fromArray([
 ]);
 
 describe("SignKey", () => {
-  test("armor", async () => {
-    const key = await C.SignPair.generate();
-    await C.SignKey.armor(key);
-  });
-
   test("dearmor", async () => {
     const key1 = await C.SignPair.generate();
-    const dumped1 = await C.SignKey.armor(key1);
+    const dumped1 = await C.SignPair.armor(key1);
     const key2 = await C.SignKey.dearmor(dumped1);
-    const dumped2 = await C.SignKey.armor(key2);
+    const key3 = await C.SignKey.toSignPair(key2);
+    const dumped2 = await C.SignPair.armor(key3);
     expect(dumped1).toBe(dumped2);
   });
 
