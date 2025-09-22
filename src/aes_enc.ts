@@ -1,7 +1,7 @@
 import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
-export namespace EncPair {
+export namespace AesEnc {
   export async function derive(
     password: string,
     salt: Types.Salt
