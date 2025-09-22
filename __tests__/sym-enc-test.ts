@@ -24,4 +24,19 @@ describe("SymEnc", () => {
     const dumped2 = await C.SymEnc.armor(key2);
     expect(dumped1).toBe(dumped2);
   });
+
+  test("armorEncrypted", async () => {
+    const key = await C.SymEnc.derive("hello", SALT);
+    const enc = await C.SymEnc.derive("oh hi mark", SALT);
+    await C.SymEnc.armorEncrypted(key, enc, SALT);
+  });
+
+  test("dearmorEncrypted", async () => {
+    const enc = await C.SymEnc.derive("oh hi mark", SALT);
+    const key1 = await C.SymEnc.derive("hello", SALT);
+    const dumped1 = await C.SymEnc.armorEncrypted(key1, enc, SALT);
+    const key2 = await C.SymEnc.dearmorEncrypted(dumped1, enc, SALT);
+    const dumped2 = await C.SymEnc.armorEncrypted(key2, enc, SALT);
+    expect(dumped1).toBe(dumped2);
+  });
 });

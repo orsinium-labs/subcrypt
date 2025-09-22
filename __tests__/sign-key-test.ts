@@ -18,12 +18,6 @@ describe("SignKey", () => {
   });
 
   test("dearmor", async () => {
-    const key = await C.SignKey.generate();
-    const dumped = await C.SignKey.armor(key);
-    await C.SignKey.dearmor(dumped);
-  });
-
-  test("armor-dearmor-armor", async () => {
     const key1 = await C.SignKey.generate();
     const dumped1 = await C.SignKey.armor(key1);
     const key2 = await C.SignKey.dearmor(dumped1);
