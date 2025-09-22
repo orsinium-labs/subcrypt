@@ -1,4 +1,4 @@
-export module Types {
+export namespace Types {
   /** Public key that can verify signature. */
   export interface VerifyKey {
     verify: CryptoKey;
