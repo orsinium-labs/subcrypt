@@ -30,4 +30,18 @@ describe("SignPair", () => {
     const dumped2 = await C.SignPair.armor(key2);
     expect(dumped1).toBe(dumped2);
   });
+
+  test("sign", async () => {
+    const key = await C.SignPair.generate();
+    await C.SignPair.sign(key, "hello");
+  });
+
+  test("verify", async () => {
+    const key = await C.SignPair.generate();
+    const sig = await C.SignPair.sign(key, "hello");
+    const ok1 = await C.SignPair.verify(key, "hello", sig);
+    expect(ok1).toBe(true);
+    const ok2 = await C.SignPair.verify(key, "hello!", sig);
+    expect(ok2).toBe(false);
+  });
 });

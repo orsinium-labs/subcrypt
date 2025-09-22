@@ -30,4 +30,9 @@ describe("SignKey", () => {
     const dumped2 = await C.SignKey.armor(key2);
     expect(dumped1).toBe(dumped2);
   });
+
+  test("sign", async () => {
+    const key = await C.SignKey.generate();
+    await C.SignKey.sign(key, "hello");
+  });
 });
