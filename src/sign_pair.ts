@@ -30,26 +30,6 @@ export namespace SignPair {
 
   export async function dearmor(base64: string): Promise<Types.SignPair> {
     const key = await SignKey.dearmor(base64);
-    const pubKey = await extractPubKey(key.sign);
-    return { sign: key.sign, verify: pubKey };
+    return await SignKey.toSignPair(key);
   }
-}
-
-async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
-  const jwk = await crypto.subtle.exportKey("jwk", privKey);
-
-  delete jwk.d;
-  delete jwk.dp;
-  delete jwk.dq;
-  delete jwk.q;
-  delete jwk.qi;
-  jwk.key_ops = ["verify"];
-
-  return await crypto.subtle.importKey(
-    "jwk",
-    jwk,
-    { name: "RSA-PSS", hash: "SHA-256" },
-    true,
-    ["verify"]
-  );
 }
