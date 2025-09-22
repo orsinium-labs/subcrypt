@@ -1,5 +1,10 @@
 import { Types } from "./types";
-import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
+import {
+  arrayBufferToBase64,
+  arrayBufferToString,
+  base64ToArrayBuffer,
+  stringToArrayBuffer,
+} from "./utils";
 
 export async function encrypt(key: Types.EncryptKey, data: string): Promise<string> {
   const plainBinary = stringToArrayBuffer(data);
@@ -9,6 +14,16 @@ export async function encrypt(key: Types.EncryptKey, data: string): Promise<stri
     plainBinary
   );
   return arrayBufferToBase64(encryptedBinary);
+}
+
+export async function decrypt(key: Types.DecryptKey, base64: string): Promise<string> {
+  const encryptedBinary = base64ToArrayBuffer(base64);
+  const plainBinary = await crypto.subtle.decrypt(
+    { name: key.decrypt.algorithm.name },
+    key.decrypt,
+    encryptedBinary
+  );
+  return arrayBufferToString(plainBinary);
 }
 
 export async function sign(key: Types.SignKey, data: string): Promise<string> {
