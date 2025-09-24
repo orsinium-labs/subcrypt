@@ -8,6 +8,11 @@ export namespace DecryptKey {
     return { encrypt: pubKey, decrypt: key.decrypt };
   }
 
+  export async function toSignKey(key: Types.DecryptKey): Promise<Types.SignKey> {
+    const sign = await oaepToPss(key.decrypt);
+    return { sign };
+  }
+
   export async function armor(key: Types.DecryptKey): Promise<string> {
     const bytes = await crypto.subtle.exportKey("pkcs8", key.decrypt);
     return arrayBufferToBase64(bytes);
@@ -43,4 +48,18 @@ async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
     true,
     ["encrypt"]
   );
+}
+
+async function oaepToPss(pss: CryptoKey): Promise<CryptoKey> {
+  const jwk = await crypto.subtle.exportKey("jwk", pss);
+  jwk.key_ops = ["sign"];
+  const oaep = await crypto.subtle.importKey(
+    "jwk",
+    jwk,
+    { name: "RSA-PSS", hash: "SHA-256" },
+    true,
+    ["sign"]
+  );
+
+  return oaep;
 }

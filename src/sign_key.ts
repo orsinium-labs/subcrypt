@@ -1,6 +1,7 @@
 import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
 
+/** Operations on RSA-PSS private key. */
 export namespace SignKey {
   export async function toSignPair(key: Types.SignKey): Promise<Types.SignPair> {
     const pubKey = await extractPubKey(key.sign);
@@ -12,6 +13,12 @@ export namespace SignKey {
     return { decrypt };
   }
 
+  /** Export RSA-PSS private key as base64-encoded pkcs8.
+   *
+   * Keep in mind that public key can be derived from private key.
+   * So, sharing exported RSA-PSS private key is the same as sharing
+   * exported SignPair.
+   */
   export async function armor(pair: Types.SignKey): Promise<string> {
     const plainBytes = await crypto.subtle.exportKey("pkcs8", pair.sign);
     return arrayBufferToBase64(plainBytes);

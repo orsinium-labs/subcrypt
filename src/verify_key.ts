@@ -1,7 +1,9 @@
 import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
 
+/** Operations on RSA-PSS public key. */
 export namespace VerifyKey {
+  /** Export RSA-PSS public key as base64-encoded spki. */
   export async function armor(key: Types.VerifyKey): Promise<string> {
     const bytes = await crypto.subtle.exportKey("spki", key.verify);
     return arrayBufferToBase64(bytes);
