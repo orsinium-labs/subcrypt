@@ -1,3 +1,4 @@
+import { DecryptKey } from "./decrypt_key";
 import { Types } from "./types";
 
 export namespace EncPair {
@@ -13,5 +14,14 @@ export namespace EncPair {
       ["encrypt", "decrypt"]
     );
     return { encrypt: pair.publicKey, decrypt: pair.privateKey };
+  }
+
+  export async function armor(pair: Types.EncPair): Promise<string> {
+    return await DecryptKey.armor(pair);
+  }
+
+  export async function dearmor(base64: string): Promise<Types.EncPair> {
+    const key = await DecryptKey.dearmor(base64);
+    return await DecryptKey.toEncPair(key);
   }
 }

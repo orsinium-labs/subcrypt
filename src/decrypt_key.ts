@@ -2,6 +2,20 @@ import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
 export namespace DecryptKey {
+  export async function generate(): Promise<Types.DecryptKey> {
+    const pair = await crypto.subtle.generateKey(
+      {
+        name: "RSA-OAEP",
+        modulusLength: 2048,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: "SHA-256",
+      },
+      true,
+      ["encrypt", "decrypt"]
+    );
+    return { decrypt: pair.privateKey };
+  }
+
   export async function toEncPair(key: Types.DecryptKey): Promise<Types.EncPair> {
     const pubKey = await extractPubKey(key.decrypt);
     return { encrypt: pubKey, decrypt: key.decrypt };
@@ -40,6 +54,6 @@ async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
     jwk,
     { name: "RSA-OAEP", hash: "SHA-256" },
     true,
-    ["decrypt"]
+    ["encrypt"]
   );
 }
