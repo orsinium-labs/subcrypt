@@ -1,11 +1,19 @@
 import { Types } from "./types";
 import { arrayBufferToBase64 } from "./utils";
 
-export async function hashString(password: string, salt: Types.Salt): Promise<string> {
+/** Generate SHA-256 hash of the given string.
+ *
+ * Optionally accepts salt to be prepended to the string.
+ * You should always use salt when hashing passwords or other
+ * relatively short values to prevent rainbow tables attack.
+ */
+export async function hashString(password: string, salt?: Types.Salt): Promise<string> {
   const enc = new TextEncoder();
-  const passwordBin = enc.encode(password);
-  const salted = mergeArrayBuffers([salt.salt.buffer, passwordBin.buffer]);
-  const digest = await crypto.subtle.digest("SHA-256", salted);
+  let binary: BufferSource = enc.encode(password);
+  if (salt) {
+    binary = mergeArrayBuffers([salt.salt.buffer, binary.buffer]);
+  }
+  const digest = await crypto.subtle.digest("SHA-256", binary);
   return arrayBufferToBase64(digest);
 }
 

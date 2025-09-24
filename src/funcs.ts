@@ -42,6 +42,7 @@ export async function decrypt(
   return arrayBufferToString(plainBinary);
 }
 
+/** Generate signtaure for the given string using a private signing key. */
 export async function sign(key: Types.SignKey, data: string): Promise<string> {
   let signature = await crypto.subtle.sign(
     {
@@ -54,6 +55,7 @@ export async function sign(key: Types.SignKey, data: string): Promise<string> {
   return arrayBufferToBase64(signature);
 }
 
+/** Verify signtaure for the given string using a public verification key. */
 export async function verify(
   key: Types.VerifyKey,
   data: string,
