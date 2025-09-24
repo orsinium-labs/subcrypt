@@ -2,6 +2,14 @@ import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
 export namespace SymEnc {
+  export async function generate(): Promise<Types.EncPair> {
+    const key = await crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, [
+      "encrypt",
+      "decrypt",
+    ]);
+    return { encrypt: key, decrypt: key };
+  }
+
   export async function derive(
     password: string,
     salt: Types.Salt

@@ -8,6 +8,9 @@ const SALT = C.Salt.fromArray([
 ]);
 
 describe("SymEnc", () => {
+  test("generate", async () => {
+    await C.SymEnc.generate();
+  });
   test("derive", async () => {
     await C.SymEnc.derive("hello", SALT);
   });
