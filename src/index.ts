@@ -1,3 +1,4 @@
+export { DecryptKey } from "./decrypt_key";
 export { EncPair } from "./enc_pair";
 export { EncryptKey } from "./encrypt_key";
 export { decrypt, encrypt, sign, verify } from "./funcs";
