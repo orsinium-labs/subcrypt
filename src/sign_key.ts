@@ -7,6 +7,11 @@ export namespace SignKey {
     return { sign: key.sign, verify: pubKey };
   }
 
+  export async function toDecryptKey(key: Types.SignKey): Promise<Types.DecryptKey> {
+    const decrypt = await pssToOaep(key.sign);
+    return { decrypt };
+  }
+
   export async function armor(pair: Types.SignKey): Promise<string> {
     const plainBytes = await crypto.subtle.exportKey("pkcs8", pair.sign);
     return arrayBufferToBase64(plainBytes);
@@ -79,4 +84,18 @@ async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
     true,
     ["verify"]
   );
+}
+
+async function pssToOaep(pss: CryptoKey): Promise<CryptoKey> {
+  const jwk = await crypto.subtle.exportKey("jwk", pss);
+  jwk.key_ops = ["decrypt"];
+  const oaep = await crypto.subtle.importKey(
+    "jwk",
+    jwk,
+    { name: "RSA-OAEP", hash: "SHA-256" },
+    true,
+    ["decrypt"]
+  );
+
+  return oaep;
 }

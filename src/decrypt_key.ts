@@ -1,21 +1,8 @@
 import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
+/** Operations on RSA-OAEP private key. */
 export namespace DecryptKey {
-  export async function generate(): Promise<Types.DecryptKey> {
-    const pair = await crypto.subtle.generateKey(
-      {
-        name: "RSA-OAEP",
-        modulusLength: 2048,
-        publicExponent: new Uint8Array([1, 0, 1]),
-        hash: "SHA-256",
-      },
-      true,
-      ["encrypt", "decrypt"]
-    );
-    return { decrypt: pair.privateKey };
-  }
-
   export async function toEncPair(key: Types.DecryptKey): Promise<Types.EncPair> {
     const pubKey = await extractPubKey(key.decrypt);
     return { encrypt: pubKey, decrypt: key.decrypt };

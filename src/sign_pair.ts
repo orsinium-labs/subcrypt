@@ -1,6 +1,5 @@
 import { SignKey } from "./sign_key";
 import { Types } from "./types";
-import { VerifyKey } from "./verify_key";
 
 export namespace SignPair {
   export async function generate(): Promise<Types.SignPair> {

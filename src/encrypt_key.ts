@@ -1,6 +1,7 @@
 import { Types } from "./types";
 import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
+/** Operations on RSA-OAEP public key. */
 export namespace EncryptKey {
   export async function armor(key: Types.EncryptKey): Promise<string> {
     const bytes = await crypto.subtle.exportKey("spki", key.encrypt);

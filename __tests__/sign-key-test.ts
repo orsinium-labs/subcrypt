@@ -13,6 +13,12 @@ describe("SignKey", () => {
     await C.SignKey.armor(key);
   });
 
+  test("toDecryptKey", async () => {
+    const key1 = await C.SignPair.generate();
+    const key2 = await C.SignKey.toDecryptKey(key1);
+    await C.DecryptKey.armor(key2);
+  });
+
   test("dearmor", async () => {
     const key1 = await C.SignPair.generate();
     const dumped1 = await C.SignPair.armor(key1);
