@@ -6,9 +6,9 @@
     "build": "tsc",
     "test": "jest --coverage"
   },
-  "author": "",
+  "author": "orsinium",
   "license": "MIT",
-  "description": "",
+  "description": "Type-safe cross-environment encryption library",
   "babel": {
     "presets": [
       "@babel/preset-env"
