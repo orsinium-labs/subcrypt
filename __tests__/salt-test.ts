@@ -7,12 +7,10 @@ const SALT = C.Salt.fromArray([
   34, 27, 237, 131, 95, 187, 115, 60,
 ]);
 
-describe("Hash", () => {
-  test("hashString", async () => {
-    const hash1 = await C.hashString("53cr37", SALT);
-    const hash2 = await C.hashString("53cr37");
-    expect(hash1.length).toBe(44);
-    expect(hash2.length).toBe(44);
-    expect(hash1 !== hash2).toBe(true);
+describe("Salt", () => {
+  test("generate", async () => {
+    const s1 = await C.Salt.generate();
+    const s2 = await C.Salt.generate();
+    expect(s1 !== s2).toBe(true);
   });
 });
