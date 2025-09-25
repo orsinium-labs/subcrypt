@@ -9,6 +9,9 @@ tasks:
   format:
     cmds:
       - npx prettier -w ./
+  lint:
+    cmds:
+      - npx eslint
   test:
     cmds:
       - npx jest
@@ -17,6 +20,7 @@ tasks:
     cmds:
       - task: build
       - task: format
+      - task: lint
       - task: test
   default:
     cmds:

@@ -1,9 +1,5 @@
 import { Types } from "./types";
-import {
-  arrayBufferToBase64,
-  base64ToArrayBuffer,
-  stringToArrayBuffer,
-} from "./utils";
+import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
 /** Operations on RSA-PSS private key. */
 export namespace SignKey {
@@ -50,7 +46,7 @@ export namespace SignKey {
     salt: Types.Salt
   ): Promise<string> {
     const plainBytes = await crypto.subtle.exportKey("pkcs8", signKey.sign);
-    let iv = salt.salt.slice(0, 16);
+    const iv = salt.salt.slice(0, 16);
     const encBytes = await crypto.subtle.encrypt(
       { name: encKey.encrypt.algorithm.name, iv },
       encKey.encrypt,
@@ -65,7 +61,7 @@ export namespace SignKey {
     salt: Types.Salt
   ): Promise<Types.SignKey> {
     const encBytes = base64ToArrayBuffer(base64);
-    let iv = salt.salt.slice(0, 16);
+    const iv = salt.salt.slice(0, 16);
     const plainBytes = await crypto.subtle.decrypt(
       { name: decKey.decrypt.algorithm.name, iv },
       decKey.decrypt,

@@ -44,7 +44,7 @@ export async function decrypt(
 
 /** Generate signtaure for the given string using a private signing key. */
 export async function sign(key: Types.SignKey, data: string): Promise<string> {
-  let signature = await crypto.subtle.sign(
+  const signature = await crypto.subtle.sign(
     {
       name: key.sign.algorithm.name,
       saltLength: 32,

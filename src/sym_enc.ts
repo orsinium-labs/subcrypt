@@ -61,7 +61,7 @@ export namespace SymEnc {
     salt: Types.Salt
   ): Promise<string> {
     const plainBytes = await crypto.subtle.exportKey("raw", pair.encrypt);
-    let iv = salt.salt.slice(0, 16);
+    const iv = salt.salt.slice(0, 16);
     const encBytes = await crypto.subtle.encrypt(
       { name: encKey.encrypt.algorithm.name, iv },
       encKey.encrypt,
@@ -76,7 +76,7 @@ export namespace SymEnc {
     salt: Types.Salt
   ): Promise<Types.EncPair> {
     const encBytes = base64ToArrayBuffer(base64);
-    let iv = salt.salt.slice(0, 16);
+    const iv = salt.salt.slice(0, 16);
     const plainBytes = await crypto.subtle.decrypt(
       { name: decKey.decrypt.algorithm.name, iv },
       decKey.decrypt,
