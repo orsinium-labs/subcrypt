@@ -80,7 +80,7 @@ const plainMsg = await decrypt(pair, encMsg);
 Asymmetric signatures:
 
 ```js
-import { SignPair, VerifyKey, encrypt, decrypt } from "subcrypt";
+import { SignPair, VerifyKey, sign, verify } from "subcrypt";
 
 // generate a new RSA key pair
 let pair = await SignPair.generate();
