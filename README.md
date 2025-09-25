@@ -1,5 +1,7 @@
 # subcrypt
 
+[ [github](https://github.com/orsinium-labs/subcrypt) ] [ [npm](https://www.npmjs.com/package/subcrypt) ]
+
 Type-safe cross-environment encryption (RSA/AES) library for JS/TS built on top of [crypto.subtle](https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto).
 
 Features:

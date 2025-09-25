@@ -1,11 +1,15 @@
 {
   "name": "subcrypt",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.ts",
-  "scripts": {
-    "build": "tsc",
-    "test": "jest --coverage"
-  },
+  "homepage": "https://github.com/orsinium-labs/subcrypt",
+  "keywords": [
+    "security",
+    "crypto",
+    "rsa",
+    "aes",
+    "signing"
+  ],
   "author": "orsinium",
   "license": "MIT",
   "description": "Type-safe cross-environment encryption library",
