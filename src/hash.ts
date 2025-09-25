@@ -7,7 +7,10 @@ import { arrayBufferToBase64 } from "./utils";
  * You should always use salt when hashing passwords or other
  * relatively short values to prevent rainbow tables attack.
  */
-export async function hashString(password: string, salt?: Types.Salt): Promise<string> {
+export async function hashString(
+  password: string,
+  salt?: Types.Salt,
+): Promise<string> {
   const enc = new TextEncoder();
   let binary: BufferSource = enc.encode(password);
   if (salt) {

@@ -1,10 +1,10 @@
 {
   "name": "subcrypt",
   "version": "1.0.0",
-  "main": "index.ts",
+  "main": "dist/index.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "author": "",
   "license": "MIT",
@@ -19,6 +19,12 @@
     "transform": {
       "^.+\\.(ts|tsx)?$": "ts-jest",
       "^.+\\.(js|jsx)$": "babel-jest"
+    },
+    "collectCoverage": true,
+    "coverageThreshold": {
+      "global": {
+        "lines": 100
+      }
     }
   },
   "devDependencies": {

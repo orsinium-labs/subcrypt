@@ -1,14 +1,22 @@
 import { Types } from "./types";
-import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
+import {
+  arrayBufferToBase64,
+  base64ToArrayBuffer,
+  stringToArrayBuffer,
+} from "./utils";
 
 /** Operations on RSA-PSS private key. */
 export namespace SignKey {
-  export async function toSignPair(key: Types.SignKey): Promise<Types.SignPair> {
+  export async function toSignPair(
+    key: Types.SignKey,
+  ): Promise<Types.SignPair> {
     const pubKey = await extractPubKey(key.sign);
     return { sign: key.sign, verify: pubKey };
   }
 
-  export async function toDecryptKey(key: Types.SignKey): Promise<Types.DecryptKey> {
+  export async function toDecryptKey(
+    key: Types.SignKey,
+  ): Promise<Types.DecryptKey> {
     const decrypt = await pssToOaep(key.sign);
     return { decrypt };
   }
@@ -31,7 +39,7 @@ export namespace SignKey {
       bytes,
       { name: "RSA-PSS", hash: "SHA-256" },
       true,
-      ["sign"]
+      ["sign"],
     );
     return { sign: key };
   }
@@ -39,14 +47,14 @@ export namespace SignKey {
   export async function armorEncrypted(
     signKey: Types.SignKey,
     encKey: Types.EncryptKey,
-    salt: Types.Salt
+    salt: Types.Salt,
   ): Promise<string> {
     const plainBytes = await crypto.subtle.exportKey("pkcs8", signKey.sign);
     let iv = salt.salt.slice(0, 16);
     const encBytes = await crypto.subtle.encrypt(
       { name: encKey.encrypt.algorithm.name, iv },
       encKey.encrypt,
-      plainBytes
+      plainBytes,
     );
     return arrayBufferToBase64(encBytes);
   }
@@ -54,21 +62,21 @@ export namespace SignKey {
   export async function dearmorEncrypted(
     base64: string,
     decKey: Types.DecryptKey,
-    salt: Types.Salt
+    salt: Types.Salt,
   ): Promise<Types.SignKey> {
     const encBytes = base64ToArrayBuffer(base64);
     let iv = salt.salt.slice(0, 16);
     const plainBytes = await crypto.subtle.decrypt(
       { name: decKey.decrypt.algorithm.name, iv },
       decKey.decrypt,
-      encBytes
+      encBytes,
     );
     const key = await crypto.subtle.importKey(
       "pkcs8",
       plainBytes,
       { name: "RSA-PSS", hash: "SHA-256" },
       true,
-      ["sign"]
+      ["sign"],
     );
     return { sign: key };
   }
@@ -89,7 +97,7 @@ async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
     jwk,
     { name: privKey.algorithm.name, hash: "SHA-256" },
     true,
-    ["verify"]
+    ["verify"],
   );
 }
 
@@ -101,7 +109,7 @@ async function pssToOaep(pss: CryptoKey): Promise<CryptoKey> {
     jwk,
     { name: "RSA-OAEP", hash: "SHA-256" },
     true,
-    ["decrypt"]
+    ["decrypt"],
   );
 
   return oaep;

@@ -1,0 +1,23 @@
+# https://taskfile.dev
+version: "3"
+
+tasks:
+  build:
+    cmds:
+      - npm i
+      - npx tsc
+  format:
+    cmds:
+      - npx prettier -w ./src/
+  test:
+    cmds:
+      - npx jest
+
+  all:
+    cmds:
+      - task: build
+      - task: format
+      - task: test
+  default:
+    cmds:
+      - task: all

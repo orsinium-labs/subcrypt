@@ -1,5 +1,9 @@
 import { Types } from "./types";
-import { arrayBufferToBase64, base64ToArrayBuffer, stringToArrayBuffer } from "./utils";
+import {
+  arrayBufferToBase64,
+  base64ToArrayBuffer,
+  stringToArrayBuffer,
+} from "./utils";
 
 /** Operations on RSA-PSS public key. */
 export namespace VerifyKey {
@@ -16,7 +20,7 @@ export namespace VerifyKey {
       bytes,
       { name: "RSA-PSS", hash: "SHA-256" },
       true,
-      ["verify"]
+      ["verify"],
     );
     return { verify: key };
   }
