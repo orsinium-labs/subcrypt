@@ -11,7 +11,7 @@ export namespace SignPair {
         hash: "SHA-256",
       },
       true,
-      ["sign", "verify"],
+      ["sign", "verify"]
     );
     return { sign: pair.privateKey, verify: pair.publicKey };
   }
@@ -28,7 +28,7 @@ export namespace SignPair {
   export async function armorEncrypted(
     pair: Types.SignPair,
     encKey: Types.EncryptKey,
-    salt: Types.Salt,
+    salt: Types.Salt
   ): Promise<string> {
     return await SignKey.armorEncrypted(pair, encKey, salt);
   }
@@ -36,7 +36,7 @@ export namespace SignPair {
   export async function dearmorEncrypted(
     base64: string,
     decKey: Types.DecryptKey,
-    salt: Types.Salt,
+    salt: Types.Salt
   ): Promise<Types.SignPair> {
     const key = await SignKey.dearmorEncrypted(base64, decKey, salt);
     return await SignKey.toSignPair(key);

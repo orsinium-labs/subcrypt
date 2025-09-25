@@ -9,7 +9,7 @@ import {
 export async function encrypt(
   key: Types.EncryptKey,
   data: string,
-  salt?: Types.Salt,
+  salt?: Types.Salt
 ): Promise<string> {
   const plainBinary = stringToArrayBuffer(data);
   let iv = undefined;
@@ -19,7 +19,7 @@ export async function encrypt(
   const encryptedBinary = await crypto.subtle.encrypt(
     { name: key.encrypt.algorithm.name, iv },
     key.encrypt,
-    plainBinary,
+    plainBinary
   );
   return arrayBufferToBase64(encryptedBinary);
 }
@@ -27,7 +27,7 @@ export async function encrypt(
 export async function decrypt(
   key: Types.DecryptKey,
   base64: string,
-  salt?: Types.Salt,
+  salt?: Types.Salt
 ): Promise<string> {
   const encryptedBinary = base64ToArrayBuffer(base64);
   let iv = undefined;
@@ -37,7 +37,7 @@ export async function decrypt(
   const plainBinary = await crypto.subtle.decrypt(
     { name: key.decrypt.algorithm.name, iv },
     key.decrypt,
-    encryptedBinary,
+    encryptedBinary
   );
   return arrayBufferToString(plainBinary);
 }
@@ -50,7 +50,7 @@ export async function sign(key: Types.SignKey, data: string): Promise<string> {
       saltLength: 32,
     },
     key.sign,
-    stringToArrayBuffer(data),
+    stringToArrayBuffer(data)
   );
   return arrayBufferToBase64(signature);
 }
@@ -59,7 +59,7 @@ export async function sign(key: Types.SignKey, data: string): Promise<string> {
 export async function verify(
   key: Types.VerifyKey,
   data: string,
-  signature: string,
+  signature: string
 ): Promise<boolean> {
   return await crypto.subtle.verify(
     {
@@ -68,6 +68,6 @@ export async function verify(
     },
     key.verify,
     base64ToArrayBuffer(signature),
-    stringToArrayBuffer(data),
+    stringToArrayBuffer(data)
   );
 }

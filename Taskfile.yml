@@ -8,7 +8,7 @@ tasks:
       - npx tsc
   format:
     cmds:
-      - npx prettier -w ./src/
+      - npx prettier -w ./
   test:
     cmds:
       - npx jest

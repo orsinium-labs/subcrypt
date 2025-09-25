@@ -20,7 +20,7 @@ export namespace VerifyKey {
       bytes,
       { name: "RSA-PSS", hash: "SHA-256" },
       true,
-      ["verify"],
+      ["verify"]
     );
     return { verify: key };
   }

@@ -5,7 +5,7 @@ import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 export namespace DecryptKey {
   /** Extract public encrypt key from the given private decrypt key. */
   export async function toEncPair(
-    key: Types.DecryptKey,
+    key: Types.DecryptKey
   ): Promise<Types.EncPair> {
     const pubKey = await extractPubKey(key.decrypt);
     return { encrypt: pubKey, decrypt: key.decrypt };
@@ -17,7 +17,7 @@ export namespace DecryptKey {
    * and for signing: https://crypto.stackexchange.com/a/12138/42888.
    */
   export async function toSignKey(
-    key: Types.DecryptKey,
+    key: Types.DecryptKey
   ): Promise<Types.SignKey> {
     const sign = await oaepToPss(key.decrypt);
     return { sign };
@@ -37,7 +37,7 @@ export namespace DecryptKey {
       bytes,
       { name: "RSA-OAEP", hash: "SHA-256" },
       true,
-      ["decrypt"],
+      ["decrypt"]
     );
     return { decrypt: key };
   }
@@ -59,7 +59,7 @@ async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
     jwk,
     { name: "RSA-OAEP", hash: "SHA-256" },
     true,
-    ["encrypt"],
+    ["encrypt"]
   );
 }
 
@@ -72,7 +72,7 @@ async function oaepToPss(pss: CryptoKey): Promise<CryptoKey> {
     jwk,
     { name: "RSA-PSS", hash: "SHA-256" },
     true,
-    ["sign"],
+    ["sign"]
   );
 
   return oaep;

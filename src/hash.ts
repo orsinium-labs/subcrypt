@@ -9,7 +9,7 @@ import { arrayBufferToBase64 } from "./utils";
  */
 export async function hashString(
   password: string,
-  salt?: Types.Salt,
+  salt?: Types.Salt
 ): Promise<string> {
   const enc = new TextEncoder();
   let binary: BufferSource = enc.encode(password);

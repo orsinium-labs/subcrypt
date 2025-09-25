@@ -11,7 +11,7 @@ export namespace EncPair {
         hash: "SHA-256",
       },
       true,
-      ["encrypt", "decrypt"],
+      ["encrypt", "decrypt"]
     );
     return { encrypt: pair.publicKey, decrypt: pair.privateKey };
   }

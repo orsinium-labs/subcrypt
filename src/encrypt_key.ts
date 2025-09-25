@@ -17,7 +17,7 @@ export namespace EncryptKey {
       bytes,
       { name: "RSA-OAEP", hash: "SHA-256" },
       true,
-      ["encrypt"],
+      ["encrypt"]
     );
     return { encrypt: key };
   }

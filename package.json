@@ -27,6 +27,12 @@
       }
     }
   },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": false
+  },
   "devDependencies": {
     "@babel/preset-env": "^7.28.3",
     "@eslint/js": "^9.36.0",
