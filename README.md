@@ -6,11 +6,11 @@ Type-safe cross-environment encryption (RSA/AES) library for JS/TS built on top 
 
 Features:
 
-* Works in browser, node.js, react native, and expo.
-* Type-safe and written in TypeScript.
-* Safe defaults.
-* Friendly API that doesn't require deep technical knowledge of cryptography.
-* 100% test coverage.
+- Works in browser, node.js, react native, and expo.
+- Type-safe and written in TypeScript.
+- Safe defaults.
+- Friendly API that doesn't require deep technical knowledge of cryptography.
+- 100% test coverage.
 
 ## Installation
 
