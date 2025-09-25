@@ -6,8 +6,10 @@ export namespace SignPair {
     const pair = await crypto.subtle.generateKey(
       {
         name: "RSA-PSS",
+        // https://crypto.stackexchange.com/questions/1978/how-big-an-rsa-key-is-considered-secure-today
         modulusLength: 2048,
         publicExponent: new Uint8Array([1, 0, 1]),
+        // https://itoolkit.co/blog/2023/08/has-the-sha-256-encryption-shown-any-vulnerability/
         hash: "SHA-256",
       },
       true,
