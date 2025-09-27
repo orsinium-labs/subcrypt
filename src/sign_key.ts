@@ -100,6 +100,7 @@ async function extractPubKey(privKey: CryptoKey): Promise<CryptoKey> {
 async function pssToOaep(pss: CryptoKey): Promise<CryptoKey> {
   const jwk = await crypto.subtle.exportKey("jwk", pss);
   jwk.key_ops = ["decrypt"];
+  jwk.alg = "RSA-OAEP-256";
   const oaep = await crypto.subtle.importKey(
     "jwk",
     jwk,
