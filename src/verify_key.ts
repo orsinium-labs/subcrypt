@@ -3,6 +3,13 @@ import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 
 /** Operations on RSA-PSS public key. */
 export namespace VerifyKey {
+  export async function toEncryptKey(
+    key: Types.SignKey
+  ): Promise<Types.EncryptKey> {
+    const encrypt = await pssToOaep(key.sign);
+    return { encrypt };
+  }
+
   /** Export RSA-PSS public key as base64-encoded spki. */
   export async function armor(key: Types.VerifyKey): Promise<string> {
     const bytes = await crypto.subtle.exportKey("spki", key.verify);
@@ -20,4 +27,23 @@ export namespace VerifyKey {
     );
     return { verify: key };
   }
+}
+
+async function pssToOaep(pss: CryptoKey): Promise<CryptoKey> {
+  const jwk = await crypto.subtle.exportKey("jwk", pss);
+  const oaepJwk = {
+    kty: jwk.kty,
+    n: jwk.n,
+    e: jwk.e,
+    ext: true,
+    alg: "RSA-OAEP-256",
+    key_ops: ["encrypt"],
+  };
+  return crypto.subtle.importKey(
+    "jwk",
+    oaepJwk,
+    { name: "RSA-OAEP", hash: "SHA-256" },
+    true,
+    ["encrypt"]
+  );
 }

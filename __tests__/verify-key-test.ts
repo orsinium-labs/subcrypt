@@ -13,4 +13,10 @@ describe("VerifyKey", () => {
     const dumped2 = await C.VerifyKey.armor(key2);
     expect(dumped1).toBe(dumped2);
   });
+
+  test("toEncryptKey", async () => {
+    const key1 = await C.SignPair.generate();
+    const key2 = await C.VerifyKey.toEncryptKey(key1);
+    await C.EncryptKey.armor(key2);
+  });
 });
