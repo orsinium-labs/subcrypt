@@ -4,9 +4,9 @@ import { arrayBufferToBase64, base64ToArrayBuffer } from "./utils";
 /** Operations on RSA-PSS public key. */
 export namespace VerifyKey {
   export async function toEncryptKey(
-    key: Types.SignKey
+    key: Types.VerifyKey
   ): Promise<Types.EncryptKey> {
-    const encrypt = await pssToOaep(key.sign);
+    const encrypt = await pssToOaep(key.verify);
     return { encrypt };
   }
 
