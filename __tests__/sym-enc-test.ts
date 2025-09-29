@@ -49,4 +49,11 @@ describe("SymEnc", () => {
     const res = await C.decrypt(key, dumped, SALT);
     expect(res).toBe("oh hi mark");
   });
+
+  test("decrypt-unicode", async () => {
+    const key = await C.SymEnc.derive("whyyyy", SALT);
+    const dumped = await C.encrypt(key, "привет марк", SALT);
+    const res = await C.decrypt(key, dumped, SALT);
+    expect(res).toBe("привет марк");
+  });
 });
